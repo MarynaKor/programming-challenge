@@ -13,7 +13,6 @@ public class CountriesService {
    static List<List<String>> countriesRecords = CSVFileReader.readFileByLine("src/main/resources/de/bcxp/challenge/countries.csv", ';');
 
     public static String findHighestDensity(){
-        //define the Header of the CSV File
 
         //call function from data Processor which will devide one column by the other through an iteration through all rows
         List<Double> densityDivision = dataProcessor.getColumnsDivision(countriesRecords, dataProcessor.getIndexOfHeader(countriesRecords,"Population"), dataProcessor.getIndexOfHeader(countriesRecords,"Area (km²)"));

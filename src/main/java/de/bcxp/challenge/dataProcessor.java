@@ -5,9 +5,6 @@ import java.util.stream.Collectors;
 
 public class dataProcessor {
 
-    header: ListofString,
-    records: ListofListofString,
-
 
     public static List<String> defineHeader(List<List<String>> data) {
         return data.get(0);

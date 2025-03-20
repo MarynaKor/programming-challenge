@@ -10,23 +10,21 @@ import static java.lang.Double.parseDouble;
 
 
 public class weatherService {
-    public static void getDayWithSmallestSpread(){
 
-        List<List<String>> weatherRecords =  CSVFileReader.readFileByLine("src/main/resources/de/bcxp/challenge/weather.csv", ',');
-        List<String> header = weatherRecords.get(0);
-        int linesOfData = weatherRecords.size();
-        int columnOfDay = header.indexOf("Day");
-        int columnOfMxT = header.indexOf("MxT");
-        int columnOfMnT = header.indexOf("MnT");
+    static List<List<String>> weatherRecords =  CSVFileReader.readFileByLine("src/main/resources/de/bcxp/challenge/weather.csv", ',');
 
-        List<Double> temperatureDifference = dataProcessor.getColumnsDifference(weatherRecords,header.indexOf("MxT"),header.indexOf("MnT"));
+    public static String getDayWithSmallestSpread(){
+
+        ////call function from dataProcessor which will subtract one column from the other through an iteration through all rows
+        List<Double> temperatureDifference = dataProcessor.getColumnsDifference(weatherRecords,dataProcessor.getIndexOfHeader(weatherRecords,"MxT"),dataProcessor.getIndexOfHeader(weatherRecords,"MnT"));
+
+        //find the minimum in the results of all the differences
         Double minTemperatureDifference = temperatureDifference.stream().min(Double::compareTo).orElse(null);
 
-        int minIndex = temperatureDifference.indexOf(minTemperatureDifference);
-        String minTempDiffDay = weatherRecords.get(minIndex + 1).get(columnOfDay);
-        System.out.println("The day with the lowest Temp Difference: " + minTempDiffDay);
-        System.out.println(linesOfData);
-        System.out.println(columnOfDay + " " + columnOfMxT +" "+ columnOfMnT);
+        //find the day which has smallest difference in max-min Temperature by the index
+        return weatherRecords.get(dataProcessor.getIndexOfValueList(temperatureDifference, minTemperatureDifference) + 1).get(dataProcessor.getIndexOfHeader(weatherRecords,"Day"));
+
+
 
     }
 }
