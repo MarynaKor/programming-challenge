@@ -6,14 +6,15 @@ import java.util.stream.Collectors;
 public class dataProcessor {
 
 
-    public static List<String> defineHeader(List<List<String>> data) {
+
+    public static List<String> defineHeaderCSV(List<List<String>> data) {
         return data.get(0);
     }
     public static int getIndexOfValueList(List<Double> data, double value){
         return data.indexOf(value);
     }
     public static int getIndexOfHeader(List<List<String>> data, String string){
-        return defineHeader(data).indexOf(string);
+        return defineHeaderCSV(data).indexOf(string);
     }
 
 
