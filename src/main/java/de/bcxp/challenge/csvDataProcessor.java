@@ -23,6 +23,12 @@ public class csvDataProcessor implements abstractDataProcessor {
     }
 
     @Override
+    public String correctNumberFormat(String raw_string) {
+        return raw_string.replace(".", "").replace(",", ".");
+    }
+
+
+    @Override
     public List<Double> getColumnsDifference(int columnMinuend, int columnSubtrahend){
         return this.records.stream().map(records -> Double.parseDouble(records.get(columnMinuend)) - Double.parseDouble(records.get(columnSubtrahend))).collect(Collectors.toList());
     }
@@ -30,8 +36,9 @@ public class csvDataProcessor implements abstractDataProcessor {
     @Override
     public List<Double> getColumnsDivision(int columnDividend, int columnDivisor){
         return this.records.stream().map(records -> {
-            String strDividend = records.get(columnDividend).replace(".", "").replace(",",".");
-            String strDivisor = records.get(columnDivisor).replace(".", "").replace(",",".");
+            String strDividend = this.correctNumberFormat(records.get(columnDividend));
+            String strDivisor = this.correctNumberFormat(records.get(columnDivisor));
+
             double valueDividend = Double.parseDouble(strDividend);
             double valueDivisor =  Double.parseDouble(strDivisor);
             if(valueDivisor == 0 ){
