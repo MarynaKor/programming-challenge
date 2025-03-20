@@ -1,9 +1,6 @@
 package de.bcxp.challenge;
 
-
 import de.bcxp.challenge.Interface.abstractDataProcessor;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,14 +8,17 @@ public class csvDataProcessor implements abstractDataProcessor {
     List<List<String>> records;
     List<String> header;
 
+    public csvDataProcessor(List<List<String>> data) {
+        if (data == null || data.size() < 2) {
+            throw new IllegalArgumentException("Input data cannot be null or empty.");
+        }
 
-    public csvDataProcessor(@NotNull List<List<String>> data) {
-        this.header = data.remove(0);
-        this.records = data;
+        this.header = data.get(0);
+        this.records = data.subList(1, data.size());
     }
 
     @Override
-    public int getIndexOfHeader(String string){
+    public int getIndexOfHeader(String string) {
         return this.header.indexOf(string);
     }
 
@@ -27,21 +27,21 @@ public class csvDataProcessor implements abstractDataProcessor {
         return raw_string.replace(".", "").replace(",", ".");
     }
 
-
     @Override
-    public List<Double> getColumnsDifference(int columnMinuend, int columnSubtrahend){
-        return this.records.stream().map(records -> Double.parseDouble(records.get(columnMinuend)) - Double.parseDouble(records.get(columnSubtrahend))).collect(Collectors.toList());
+    public List<Double> getColumnsDifference(int columnMinuend, int columnSubtrahend) {
+        return this.records.stream().map(records -> Double.parseDouble(records.get(columnMinuend))
+                - Double.parseDouble(records.get(columnSubtrahend))).collect(Collectors.toList());
     }
 
     @Override
-    public List<Double> getColumnsDivision(int columnDividend, int columnDivisor){
+    public List<Double> getColumnsDivision(int columnDividend, int columnDivisor) {
         return this.records.stream().map(records -> {
             String strDividend = this.correctNumberFormat(records.get(columnDividend));
             String strDivisor = this.correctNumberFormat(records.get(columnDivisor));
 
             double valueDividend = Double.parseDouble(strDividend);
-            double valueDivisor =  Double.parseDouble(strDivisor);
-            if(valueDivisor == 0 ){
+            double valueDivisor = Double.parseDouble(strDivisor);
+            if (valueDivisor == 0) {
                 throw new RuntimeException("The Divisor is 0 therefore it can't be divided!");
             }
             return (valueDividend / valueDivisor);
@@ -49,7 +49,7 @@ public class csvDataProcessor implements abstractDataProcessor {
     }
 
     @Override
-    public List<String> getFromRecord(int index){
+    public List<String> getFromRecord(int index) {
         return this.records.get(index);
     }
 }
