@@ -1,12 +1,14 @@
-package de.bcxp.challenge;
+package de.bcxp.challenge.DataProcessors;
 
-import de.bcxp.challenge.Interface.abstractDataProcessor;
+import de.bcxp.challenge.abstractDataProcessor;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class csvDataProcessor implements abstractDataProcessor {
     List<List<String>> records;
     List<String> header;
+
 
     public csvDataProcessor(List<List<String>> data) {
         if (data == null || data.size() < 2) {
